@@ -35,6 +35,7 @@ class View {
         this.renderCourses(unSelectedCourses);
     }
 
+
     
 }
 
@@ -78,7 +79,8 @@ class CourseConroller {
         this.view.available.addEventListener("click", (e) => {
             e.preventDefault();
             const targetCourse = this.model.courses.filter((course) => (course.courseId==e.target.id))
-            if (targetCourse[0].credit+ this.credit <= 18){
+
+            if (this.selectedList.includes(e.target.id) || (targetCourse[0].credit+ this.credit <= 18)){
                 this.view.toggleSelect(e.target.id);
                 if (this.selectedList.includes(e.target.id)) {
                     this.selectedList.splice(this.selectedList.indexOf(e.target.id), 1)
