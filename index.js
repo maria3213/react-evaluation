@@ -2,9 +2,6 @@ class View {
     constructor() {
       this.available = document.querySelector(".avaiable-list");
       this.selected = document.querySelector(".selected-list");
-    //   this.courseItem = document.querySelectorAll(".course-item");
-    //   this.addBtn = document.querySelector("todo__actions--add");
-    //   this.todoList = document.querySelector(".todolist");
     }
 
     renderCourses(courses,init=true) {
@@ -16,17 +13,6 @@ class View {
                 Course Credit: ${course.credit}
               </div>
               `
-            // this.available.innerHTML += `
-            //   <div class="course-item" id="${course.courseId}">
-            //     <div class="course-name">${course.courseName}</div>
-            //     <div class="course-type">
-            //         Course Type: ${course.required?`Compulsory`:`Elective`}
-            //     </div>
-            //     <div class="course-credit">
-            //         Course Credit: ${course.credit}
-            //     </div>
-            //   </div>
-            //   `;
           });
     }
 
@@ -45,7 +31,6 @@ class View {
     }
 
     resetSelect(unSelectedCourses) {
-        // console.log(this.);
         this.available.innerHTML = "";
         this.renderCourses(unSelectedCourses);
     }
@@ -75,24 +60,21 @@ class CourseConroller {
       this.model = model;
       this.view = view;
       this.selectedList = [];
-    //   this.courseList = [];
       this.credit = 0;
       this.init();
     }
 
     init() {
         this.model.fetchCourses().then((data) => {
-            const courses = data; //an arrray
+            const courses = data; 
             this.view.renderCourses(courses);
         });
-        // this.creditCalc(this.selectedList);
         this.setSelect();
         this.submitSelect();
         
     }
 
     setSelect() {
-        // console.log(this.view.courseItem);
         this.view.available.addEventListener("click", (e) => {
             e.preventDefault();
             const targetCourse = this.model.courses.filter((course) => (course.courseId==e.target.id))
@@ -108,8 +90,6 @@ class CourseConroller {
                 alert("You can only choose up to 18 credits in one semester");
                 return;
             }
-            
-            
         })
     }
 
@@ -128,8 +108,6 @@ class CourseConroller {
                 if (confirm(`You have chosen ${this.credit} credits for this semester. You cannot change once you submit. Do you want to confirm?`)){
                     this.view.renderCourses(selectedCourses,false);
                     this.view.disableSelect();
-                    // console.log(unSelectedCourses);//id
-
                     this.view.resetSelect(unSelectedCourses);
                 }
                 
@@ -139,16 +117,13 @@ class CourseConroller {
     }
 
     creditCalc(list){
-    
         const credit = document.querySelector("#total-credit");
         this.model.fetchCourses().then((data) => {
             
             const courses = JSON.parse(JSON.stringify(data))
             const selectedCourses = courses.filter((course) => {
-                // console.log(list)
                 return list.includes(String(course.courseId))
             })
-            // console.log(selectedCourses);
             let totalCredit = 0;
             selectedCourses.forEach((course) => {
                 totalCredit += course.credit;
@@ -160,28 +135,8 @@ class CourseConroller {
                 return;
             }
             credit.innerHTML = `${totalCredit}`;
-            // return totalCredit;
         })
-            
-        
-        // this.view.available.addEventListener("click", (e) => {
-        //     e.preventDefault();
-        //     this.model.fetchCourses().then((data) => {
-        //         const courses = JSON.parse(JSON.stringify(data))
-        //         const selectedCourses = courses.filter((course) => (
-        //             this.selectedList.includes(String(course.courseId))
-        //         ))
-        //         let totalCredit = 0;
-        //         selectedCourses.forEach((course) => {
-        //             totalCredit += course.credit;
-        //         })
-        //         this.credit = totalCredit;
-        //         credit.innerHTML = `${totalCredit}`;
-        //     })
-            
-        // });
-        
-        
+
     }
        
     

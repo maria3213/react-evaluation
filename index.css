@@ -1,18 +1,19 @@
 header{
     text-align: center;
 }
+
 main{
     margin:0 auto;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    height: 50vh;
-    width: 50vw;
+    height: 500px;
+    width: 40vw;
 
 }
 
-/* need update */
+
 .available,
 .selected{
     height:300px;
@@ -23,29 +24,26 @@ main{
     flex-direction: column;  
 }
 
+.title{
+    height: 50px;
+    width: 100%;
+    text-align: center;
+}
+
 .avaiable-list div:nth-child(odd) {
     background: rgb(221, 239, 221);
 }
 .selected-list div:nth-child(odd) {
     background: rgb(221, 239, 221);
 }
-.selected
-.available-title,
-.selected-title{
-    /* height: 100px; */
-    width: 100%;
-    text-align: center;
-}
+
 .course-item{
     height: 80px;
     width: 100%;
     border: 1px solid black;
     text-align: center;
     cursor: pointer;
-    /* display: flex;
-    flex-direction: column;
-    align-items: center; */
-    /* padding: 0 10px; */
+
 }
 
 footer{
