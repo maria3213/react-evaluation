@@ -44,6 +44,12 @@ class View {
         btn.disabled = true;
     }
 
+    resetSelect(unSelectedCourses) {
+        // console.log(this.);
+        this.available.innerHTML = "";
+        this.renderCourses(unSelectedCourses);
+    }
+
     
 }
 
@@ -51,9 +57,11 @@ class Model {
     #courses;
     constructor() {
         this.#courses = [];
-        this.selected = [];
+        
     }
-
+    get courses() {
+        return this.#courses;
+    }
     async fetchCourses() {
         const courses = await API.getCourse();  
         this.#courses = courses; 
@@ -77,7 +85,7 @@ class CourseConroller {
             const courses = data; //an arrray
             this.view.renderCourses(courses);
         });
-        // this.creditCalc();
+        // this.creditCalc(this.selectedList);
         this.setSelect();
         this.submitSelect();
         
@@ -87,18 +95,21 @@ class CourseConroller {
         // console.log(this.view.courseItem);
         this.view.available.addEventListener("click", (e) => {
             e.preventDefault();
-            if (this.credit > 18){
+            const targetCourse = this.model.courses.filter((course) => (course.courseId==e.target.id))
+            if (targetCourse[0].credit+ this.credit <= 18){
+                this.view.toggleSelect(e.target.id);
+                if (this.selectedList.includes(e.target.id)) {
+                    this.selectedList.splice(this.selectedList.indexOf(e.target.id), 1)
+                }else{
+                    this.selectedList.push(e.target.id);
+                }
+                this.creditCalc(this.selectedList);
+            }else{
                 alert("You can only choose up to 18 credits in one semester");
                 return;
             }
-            this.view.toggleSelect(e.target.id);
-            if (this.selectedList.includes(e.target.id)) {
-                this.selectedList.splice(this.selectedList.indexOf(e.target.id), 1)
-            }else{
-                this.selectedList.push(e.target.id);
-            }
-            const c = this.creditCalc(this.selectedList);
-            console.log(c);
+            
+            
         })
     }
 
@@ -111,9 +122,15 @@ class CourseConroller {
                 const selectedCourses = courses.filter((course) => (
                     this.selectedList.includes(String(course.courseId))
                 ))
+                const unSelectedCourses = courses.filter((course) => (
+                    !this.selectedList.includes(String(course.courseId))
+                ))
                 if (confirm(`You have chosen ${this.credit} credits for this semester. You cannot change once you submit. Do you want to confirm?`)){
                     this.view.renderCourses(selectedCourses,false);
                     this.view.disableSelect();
+                    // console.log(unSelectedCourses);//id
+
+                    this.view.resetSelect(unSelectedCourses);
                 }
                 
             });
@@ -122,7 +139,7 @@ class CourseConroller {
     }
 
     creditCalc(list){
-        
+    
         const credit = document.querySelector("#total-credit");
         this.model.fetchCourses().then((data) => {
             
@@ -137,9 +154,13 @@ class CourseConroller {
                 totalCredit += course.credit;
             })
             this.credit = totalCredit;
-            // console.log(this.credit);
+            console.log(this.credit);
+            if (this.credit > 18){
+                alert("You can only choose up to 18 credits in one semester");
+                return;
+            }
             credit.innerHTML = `${totalCredit}`;
-            return totalCredit;
+            // return totalCredit;
         })
             
         
