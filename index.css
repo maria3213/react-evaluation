@@ -1,0 +1,53 @@
+header{
+    text-align: center;
+}
+main{
+    margin:0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 50vh;
+    width: 50vw;
+
+}
+
+/* need update */
+.available,
+.selected{
+    height:300px;
+    width:200px;
+    overflow: scroll;
+    border:1px solid black;
+    display: flex;
+    flex-direction: column;  
+}
+
+.avaiable-list div:nth-child(odd) {
+    background: rgb(221, 239, 221);
+}
+.selected-list div:nth-child(odd) {
+    background: rgb(221, 239, 221);
+}
+.selected
+.available-title,
+.selected-title{
+    /* height: 100px; */
+    width: 100%;
+    text-align: center;
+}
+.course-item{
+    height: 80px;
+    width: 100%;
+    border: 1px solid black;
+    text-align: center;
+    cursor: pointer;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+    /* padding: 0 10px; */
+}
+
+footer{
+    text-align: center;
+}
